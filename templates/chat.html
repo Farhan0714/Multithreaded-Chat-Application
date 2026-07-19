@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>ZetaChat Pro - Advanced Messaging Platform</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+<div id="dashboard" class="screen active">
+  <div class="dashboard-container">
+    <div class="app-logo">
+      <div class="logo-icon">
+        <i class="fas fa-comments"></i>
+        <div class="logo-pulse"></div>
+      </div>
+      <h1 class="gradient-text">ZetaChat Pro</h1>
+      <p class="tagline">✨ Connect, Share, Play, Translate ✨</p>
+    </div>
+
+    <div id="loginScreen" class="auth-section">
+      <h2><i class="fas fa-sign-in-alt"></i> Welcome Back!</h2>
+
+      <div class="input-group">
+        <label><i class="fas fa-envelope"></i> Email Address</label>
+        <input type="email" id="loginEmail" placeholder="Enter your email" />
+      </div>
+
+      <div class="input-group">
+        <label><i class="fas fa-lock"></i> Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" />
+      </div>
+
+      <button type="button" id="loginBtn" class="btn-primary">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+
+      <div class="auth-footer">
+        <p>
+          <button type="button" id="showForgotPassword" class="btn-link">Forgot Password?</button>
+        </p>
+        <p>Don't have an account? <button type="button" id="showRegister" class="btn-link">Register here</button></p>
+      </div>
+    </div>
+
+    <div id="forgotPasswordScreen" class="auth-section hidden">
+      <h2><i class="fas fa-key"></i> Reset Password</h2>
+
+      <div id="forgotStep1">
+        <div class="input-group">
+          <label><i class="fas fa-envelope"></i> Email Address</label>
+          <input type="email" id="forgotEmail" placeholder="Enter your email address" />
+          <small class="input-hint"><i class="fas fa-info-circle"></i> We'll send you a reset code</small>
+        </div>
+
+        <button type="button" id="sendResetCodeBtn" class="btn-primary">
+          <i class="fas fa-paper-plane"></i> Send Reset Code
+        </button>
+      </div>
+
+      <div id="forgotStep2" class="hidden">
+        <div class="input-group">
+          <label><i class="fas fa-key"></i> Enter Reset Code</label>
+          <input type="text" id="resetCodeInput" placeholder="000000" maxlength="6" style="text-align: center; font-size: 24px; letter-spacing: 8px;" />
+          <small class="input-hint"><i class="fas fa-inbox"></i> Check your email for the 6-digit code</small>
+        </div>
+
+        <div class="input-group">
+          <label><i class="fas fa-lock"></i> New Password</label>
+          <input type="password" id="newPasswordInput" placeholder="Enter new password" minlength="6" />
+          <small class="input-hint"><i class="fas fa-shield-alt"></i> At least 6 characters</small>
+        </div>
+
+        <div class="input-group">
+          <label><i class="fas fa-lock"></i> Confirm New Password</label>
+          <input type="password" id="confirmNewPasswordInput" placeholder="Confirm new password" />
+        </div>
+
+        <button type="button" id="resetPasswordBtn" class="btn-primary">
+          <i class="fas fa-check-circle"></i> Reset Password
+        </button>
+      </div>
+
+      <div class="auth-footer">
+        <p><button type="button" id="backToLogin" class="btn-link">Back to Login</button></p>
+      </div>
+    </div>
+
+    <div id="registerScreen" class="auth-section hidden">
+      <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+
+      <div class="step-indicator">
+        <div class="step active" data-step="1"></div>
+        <div class="step" data-step="2"></div>
+        <div class="step" data-step="3"></div>
+      </div>
+
+      <div class="registration-steps">
+        <div class="reg-step active" id="step1">
+          <div class="input-group">
+            <label><i class="fas fa-envelope"></i> Email Address *</label>
+            <input type="email" id="regEmail" placeholder="Enter your email address" />
+            <small class="input-hint"><i class="fas fa-info-circle"></i> We'll send you a verification code</small>
+          </div>
+
+          <button type="button" id="sendOtpBtn" class="btn-primary">
+            <i class="fas fa-paper-plane"></i> Send Verification Code
+          </button>
+
+          <div id="otpSection" class="hidden" style="margin-top: 20px;">
+            <div class="input-group">
+              <label><i class="fas fa-key"></i> Enter Verification Code</label>
+              <input type="text" id="otpInput" placeholder="000000" maxlength="6" style="text-align: center; font-size: 24px; letter-spacing: 8px;" />
+              <small class="input-hint"><i class="fas fa-inbox"></i> Check your email inbox for the 6-digit code</small>
+            </div>
+            <button type="button" id="verifyOtpBtn" class="btn-primary">
+              <i class="fas fa-check-circle"></i> Verify OTP
+            </button>
+          </div>
+        </div>
+
+        <div class="reg-step" id="step2">
+          <div class="input-group">
+            <label>Upload Profile Picture *</label>
+            <div class="profile-pic-upload">
+              <label for="regProfilePic" class="profile-pic-label">
+                <img id="regProfilePicPreview" src="/static/img/default-avatar.png" alt="Profile" />
+                <span class="upload-icon"><i class="fas fa-camera"></i></span>
+              </label>
+              <input type="file" id="regProfilePic" accept="image/*" style="display: none;" />
+            </div>
+            <small class="input-hint"><i class="fas fa-image"></i> Choose your best photo!</small>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button type="button" id="backToStep1" class="btn-secondary" style="flex: 1;">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="button" id="continueToStep3" class="btn-primary" style="flex: 2;" disabled>
+              <i class="fas fa-arrow-right"></i> Continue
+            </button>
+          </div>
+        </div>
+
+        <div class="reg-step" id="step3">
+          <div class="input-group">
+            <label><i class="fas fa-user"></i> Username *</label>
+            <input type="text" id="regUsername" placeholder="Choose a unique username" maxlength="30" />
+            <small class="input-hint"><i class="fas fa-info-circle"></i> This will be your display name</small>
+          </div>
+
+          <div class="input-group">
+            <label><i class="fas fa-lock"></i> Password *</label>
+            <input type="password" id="regPassword" placeholder="Create a strong password" minlength="6" />
+            <small class="input-hint"><i class="fas fa-shield-alt"></i> At least 6 characters</small>
+          </div>
+
+          <div class="input-group">
+            <label><i class="fas fa-lock"></i> Confirm Password *</label>
+            <input type="password" id="regConfirmPassword" placeholder="Confirm your password" />
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button type="button" id="backToStep2" class="btn-secondary" style="flex: 1;">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="button" id="registerBtn" class="btn-primary" style="flex: 2;">
+              <i class="fas fa-user-plus"></i> Create Account
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-footer">
+        <p>Already have an account? <button type="button" id="showLogin" class="btn-link">Login here</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="chat" class="screen hidden">
+  <div class="sidebar-overlay"></div>
+
+  <div class="chat-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="profile-section">
+          <div class="profile-avatar" id="myAvatar">
+            <img id="myProfilePic" src="" alt="" />
+            <span class="online-indicator"></span>
+          </div>
+          <div class="profile-info">
+            <div class="profile-name" id="myName">User</div>
+            <div class="profile-status">
+              <i class="fas fa-check-circle verified-badge"></i>
+              <span>Verified</span>
+            </div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="themeToggle" title="Toggle Theme" class="btn-icon">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button id="closeSidebarBtn" title="Close Sidebar" class="btn-icon mobile-only">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="rooms-section">
+        <div class="section-header">
+          <div class="section-title"><i class="fas fa-door-open"></i> Rooms</div>
+        </div>
+        <div class="rooms-list" id="roomsList"></div>
+      </div>
+
+      <div class="users-section">
+        <div class="section-header">
+          <div class="section-title"><i class="fas fa-users"></i> Online Users</div>
+        </div>
+        <ul id="usersList" class="users-list"></ul>
+      </div>
+    </aside>
+
+    <main class="chat-main">
+      <header class="chat-header">
+        <div class="chat-info">
+          <button id="toggleSidebarBtn" title="Toggle Sidebar" class="btn-icon">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="chat-avatar">
+            <i class="fas fa-globe"></i>
+          </div>
+          <div>
+            <div class="chat-title" id="chatWith">Global Chat</div>
+            <div class="chat-subtitle">
+              <span id="chatStatus">🌐 Public Room</span>
+              <span id="typingIndicator"></span>
+            </div>
+          </div>
+        </div>
+        <div class="chat-actions">
+          <button id="voiceCallBtn" title="Voice Call" class="action-btn">
+            <i class="fas fa-phone"></i>
+          </button>
+          <button id="videoCallBtn" title="Video Call" class="action-btn">
+            <i class="fas fa-video"></i>
+          </button>
+          <button id="gamesBtn" title="Games" class="action-btn">
+            <i class="fas fa-gamepad"></i>
+          </button>
+        </div>
+      </header>
+
+      <section id="messages" class="messages"></section>
+
+      <div id="callContainer" class="call-container hidden">
+        <div class="call-overlay">
+          <div class="call-user-info">
+            <div class="call-avatar">
+              <img id="callUserAvatar" src="" alt="" />
+            </div>
+            <div class="call-user-name" id="callUserName"></div>
+            <div class="call-status" id="callStatus">Calling...</div>
+            <div class="call-timer" id="callTimer">00:00</div>
+          </div>
+          <div class="video-container hidden" id="videoContainer">
+            <video id="remoteVideo" autoplay playsinline></video>
+            <video id="localVideo" autoplay playsinline muted></video>
+          </div>
+          <div class="call-controls">
+            <button id="toggleMuteBtn" class="call-btn">
+              <i class="fas fa-microphone"></i>
+            </button>
+            <button id="toggleVideoBtn" class="call-btn hidden">
+              <i class="fas fa-video"></i>
+            </button>
+            <button id="endCallBtn" class="call-btn end-call">
+              <i class="fas fa-phone-slash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="chat-footer">
+        <div id="replyPreview" class="reply-preview hidden">
+          <div class="reply-content">
+            <i class="fas fa-reply"></i>
+            <div>
+              <div class="reply-to">Replying to message</div>
+              <div class="reply-message" id="replyToMessage"></div>
+            </div>
+          </div>
+          <button id="cancelReplyBtn" class="btn-icon">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="input-container">
+          <button id="attachBtn" title="Attach File" class="btn-icon">
+            <i class="fas fa-paperclip"></i>
+          </button>
+          <button id="photoBtn" title="Send Photo" class="btn-icon">
+            <i class="fas fa-image"></i>
+          </button>
+          <button id="videoBtn" title="Send Video" class="btn-icon">
+            <i class="fas fa-film"></i>
+          </button>
+          <button id="voiceRecordBtn" title="Hold to Record Voice" class="btn-icon">
+            <i class="fas fa-microphone"></i>
+          </button>
+          <div class="message-input-wrapper">
+            <textarea id="messageInput" placeholder="Type /ai for AI help, or message..." rows="1"></textarea>
+          </div>
+          <button id="sendBtn" disabled class="btn-send">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+
+        <input type="file" id="fileInput" multiple style="display: none;" />
+        <input type="file" id="photoInput" accept="image/*" multiple style="display: none;" />
+        <input type="file" id="videoInput" accept="video/*" style="display: none;" />
+      </footer>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
